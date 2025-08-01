@@ -69,22 +69,37 @@ export default function Home() {
   };
 
   /* hero animations (unchanged) */
-  const topElementVariants = {
-    hidden: { opacity: 0, y: -60 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "tween" as const, duration: 0.8 },
-    },
-  };
-  const bottomElementVariants = {
-    hidden: { opacity: 0, y: 80 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "tween" as const, duration: 0.8, delay: 0.2 },
-    },
-  };
+/* hero animations */
+const topElementVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: -60 
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
+const bottomElementVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 80 
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      delay: 0.2,
+      ease: "easeOut"
+    }
+  }
+};
 
   // Page transition variants
   const pageTransitionVariants = {
