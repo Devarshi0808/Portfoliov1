@@ -113,7 +113,7 @@ const Skills = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: [0.19, 1, 0.22, 1] },
+      transition: { duration: 0.5, ease: 'easeOut' as const },
     },
   };
 
@@ -130,7 +130,7 @@ const Skills = () => {
     <motion.div
       initial={{ scale: 0.98, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
+      transition={{ duration: 0.6, ease: 'easeOut' as const }}
       className="mx-auto w-full max-w-5xl rounded-4xl"
     >
       <Card className="w-full border-none px-0 pb-12 shadow-none">
