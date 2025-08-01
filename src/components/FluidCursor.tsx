@@ -4,13 +4,10 @@ import { useEffect } from 'react';
 import useFluidCursor from '@/hooks/use-FluidCursor';
 
 const FluidCursor = () => {
-  const initFluidCursor = useFluidCursor();
-
   useEffect(() => {
-    if (initFluidCursor) {
-      initFluidCursor();
-    }
-  }, [initFluidCursor]);
+    // The useFluidCursor hook runs immediately when called
+    useFluidCursor();
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 z-0">

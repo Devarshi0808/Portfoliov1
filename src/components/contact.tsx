@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, Mail, Linkedin, Github, Globe } from 'lucide-react';
+import { ChevronRight, Mail, Linkedin, Github, Globe, Phone } from 'lucide-react';
 
 export function Contact() {
   // Contact information
   const contactInfo = {
     name: 'Devarshi Wadadkar',
     email: 'devarshiw8@gmail.com',
+    phone: '+1(608)217-8581',
     socials: [
       {
         name: 'LinkedIn',
@@ -26,7 +27,7 @@ export function Contact() {
       },
       {
         name: 'Portfolio',
-        url: 'http://localhost:3001',
+        url: 'https://dwadadkar.me/',
         icon: <Globe className="h-5 w-5" />,
         bgColor: '#E8F5E9',
         textColor: '#1B5E20',
@@ -72,6 +73,26 @@ export function Contact() {
               </div>
               <p className="mt-2 text-sm" style={{ color: '#6B7280' }}>
                 Preferred method for professional inquiries
+              </p>
+            </div>
+          </div>
+
+          {/* Phone Section */}
+          <div className="mb-6">
+            <div
+              className="group cursor-pointer rounded-xl p-4 transition-all duration-300 shadow-sm hover:shadow-md"
+              onClick={() => openLink(`tel:${contactInfo.phone}`)}
+              style={{ backgroundColor: '#FFFFFF' }}
+            >
+              <div className="flex items-center gap-3">
+                <Phone className="h-6 w-6" style={{ color: '#1E3A8A' }} />
+                <span className="text-lg font-semibold hover:underline" style={{ color: '#1F2937' }}>
+                  {contactInfo.phone}
+                </span>
+                <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" style={{ color: '#1E3A8A' }} />
+              </div>
+              <p className="mt-2 text-sm" style={{ color: '#6B7280' }}>
+                Available for calls and messages
               </p>
             </div>
           </div>
