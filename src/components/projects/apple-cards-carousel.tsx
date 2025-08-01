@@ -50,7 +50,7 @@ export const Carousel = ({
   const [scrollLeftState, setScrollLeftState] = useState(0);
   
   // Debounced scroll handler
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (carouselRef.current) {
