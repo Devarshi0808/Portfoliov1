@@ -241,7 +241,7 @@ export const Carousel = ({
                   transition: {
                     duration: 0.5,
                     delay: 0.2 * index,
-                    ease: 'easeOut',
+                    ease: 'easeOut' as const,
                     once: true,
                   },
                 }}
