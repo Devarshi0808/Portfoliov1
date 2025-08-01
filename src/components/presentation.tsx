@@ -51,7 +51,7 @@ export function Presentation() {
             <motion.div
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+              transition={{ duration: 0.8, ease: 'easeOut' as const }}
               className="h-full w-full"
             >
               <Image
