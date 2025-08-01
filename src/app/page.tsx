@@ -3,8 +3,8 @@
 import FluidCursor from '@/components/FluidCursor';
 import { Button } from '@/components/ui/button';
 
-import WelcomeModal from '@/components/welcome-modal';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -70,35 +70,21 @@ export default function Home() {
 
   /* hero animations (unchanged) */
 /* hero animations */
-const topElementVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
-    y: -60 
-  },
+const topElementVariants = {
+  hidden: { opacity: 0, y: -60 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut"
-    }
-  }
+    transition: { duration: 0.8 },
+  },
 };
-
-const bottomElementVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
-    y: 80 
-  },
+const bottomElementVariants = {
+  hidden: { opacity: 0, y: 80 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.8,
-      delay: 0.2,
-      ease: "easeOut"
-    }
-  }
+    transition: { duration: 0.8, delay: 0.2 },
+  },
 };
 
   // Page transition variants
@@ -200,9 +186,7 @@ const bottomElementVariants: Variants = {
         initial="hidden"
         animate="visible"
       >
-        <div className="z-100">
-          <WelcomeModal />
-        </div>
+
 
         <h2 className="text-secondary-foreground mt-1 text-xl font-semibold md:text-2xl">
           Hey, I'm Devarshi 👋
