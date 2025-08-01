@@ -40,164 +40,16 @@ export const Carousel = ({
   initialScroll?: number;
 }) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
-  const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
-  // Swipe state
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeftState, setScrollLeftState] = useState(0);
-  
-  // Debounced scroll handler
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.scrollLeft = initialScroll;
-      checkScrollability();
     }
   }, [initialScroll]);
 
-  // Check scrollability when items change or component mounts
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      checkScrollability();
-    }, 100); // Small delay to ensure DOM is ready
-    
-    return () => clearTimeout(timer);
-  }, [items]);
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const checkScrollability = () => {
-    if (carouselRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-      const canScrollLeftValue = scrollLeft > 0;
-      const canScrollRightValue = scrollLeft < scrollWidth - clientWidth - 1; // Subtract 1 for floating point precision
-      
-      setCanScrollLeft(canScrollLeftValue);
-      setCanScrollRight(canScrollRightValue);
-      
-      // Debug logging
-      console.log('Scroll check:', {
-        scrollLeft,
-        scrollWidth,
-        clientWidth,
-        canScrollLeft: canScrollLeftValue,
-        canScrollRight: canScrollRightValue
-      });
-    }
-  };
-
-  const handleScroll = () => {
-    // Clear existing timeout
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-    
-    // Debounce the scroll check
-    scrollTimeoutRef.current = setTimeout(() => {
-      checkScrollability();
-    }, 50);
-  };
-
-  // Get the card width and gap based on viewport size
-  const getScrollDistance = () => {
-    // Card width (w-50 = 200px) + gap-4 (16px)
-    const cardWidth = 200;
-    const gap = 16;
-    const totalWidth = cardWidth + gap;
-
-    // Scroll by 2 cards on desktop, 1 on mobile
-    const cardsToScroll = 1;
-    return totalWidth * cardsToScroll;
-  };
-
-  const scrollLeft = () => {
-    if (carouselRef.current && canScrollLeft) {
-      carouselRef.current.scrollBy({
-        left: -getScrollDistance(),
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const scrollRight = () => {
-    if (carouselRef.current && canScrollRight) {
-      carouselRef.current.scrollBy({
-        left: getScrollDistance(),
-        behavior: 'smooth',
-      });
-    }
-  };
-
   const handleCardClose = (index: number) => {
-    if (carouselRef.current) {
-      const cardWidth = 200; // w-50 (200px)
-      const gap = isMobile() ? 16 : 16; // gap-4 (16px)
-      const scrollPosition = (cardWidth + gap) * index;
-      carouselRef.current.scrollTo({
-        left: scrollPosition,
-        behavior: 'smooth',
-      });
-      setCurrentIndex(index);
-    }
-  };
-
-  const isMobile = () => {
-    return window && window.innerWidth < 768;
-  };
-
-  // Swipe handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0));
-    setScrollLeftState(carouselRef.current?.scrollLeft || 0);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - (carouselRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 2;
-    if (carouselRef.current) {
-      carouselRef.current.scrollLeft = scrollLeftState - walk;
-    }
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDragging(true);
-    setStartX(e.touches[0].pageX - (carouselRef.current?.offsetLeft || 0));
-    setScrollLeftState(carouselRef.current?.scrollLeft || 0);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return;
-    const x = e.touches[0].pageX - (carouselRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 2;
-    if (carouselRef.current) {
-      carouselRef.current.scrollLeft = scrollLeftState - walk;
-    }
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
+    setCurrentIndex(index);
   };
 
   return (
@@ -206,16 +58,8 @@ export const Carousel = ({
     >
       <div className="relative w-full">
         <div
-          className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none] cursor-grab active:cursor-grabbing"
+          className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none]"
           ref={carouselRef}
-          onScroll={handleScroll}
-          onMouseDown={handleMouseDown}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
           <div
             className={cn(
@@ -251,30 +95,6 @@ export const Carousel = ({
               </motion.div>
             ))}
           </div>
-        </div>
-        <div className="flex justify-between items-center px-10 md:px-20">
-          <button
-            className={`relative z-40 flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 shadow-md ${
-              canScrollLeft 
-                ? 'bg-blue-500 hover:bg-blue-600 cursor-pointer' 
-                : 'bg-gray-300 cursor-not-allowed opacity-50'
-            }`}
-            onClick={canScrollLeft ? scrollLeft : undefined}
-            disabled={!canScrollLeft}
-          >
-            <IconArrowNarrowLeft className="h-5 w-5 text-white" />
-          </button>
-          <button
-            className={`relative z-40 flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 shadow-md ${
-              canScrollRight 
-                ? 'bg-blue-500 hover:bg-blue-600 cursor-pointer' 
-                : 'bg-gray-300 cursor-not-allowed opacity-50'
-            }`}
-            onClick={canScrollRight ? scrollRight : undefined}
-            disabled={!canScrollRight}
-          >
-            <IconArrowNarrowRight className="h-5 w-5 text-white" />
-          </button>
         </div>
       </div>
     </CarouselContext.Provider>
