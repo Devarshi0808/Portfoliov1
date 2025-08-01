@@ -16,6 +16,7 @@ import {
   ChatBubbleMessage,
 } from '@/components/ui/chat/chat-bubble';
 import WelcomeModal from '@/components/welcome-modal';
+import { X } from 'lucide-react';
 
 
 import HelperBoost from './HelperBoost';
@@ -134,10 +135,11 @@ const MOTION_CONFIG = {
   },
 };
 
-const Chat = () => {
+const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: string; onClose?: () => void }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const searchParams = useSearchParams();
-  const initialQuery = searchParams.get('query');
+  const urlInitialQuery = searchParams.get('query');
+  const initialQuery = propInitialQuery || urlInitialQuery;
   const [autoSubmitted, setAutoSubmitted] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [isTalking, setIsTalking] = useState(false);
@@ -380,6 +382,16 @@ const Chat = () => {
         <div
           className={`transition-all duration-300 ease-in-out ${hasActiveTool ? 'pt-6 pb-0' : 'py-6'}`}
         >
+          {/* Close button for overlay mode */}
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/30 text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+          
           <div className="flex justify-center">
             <ClientOnly>
               <Avatar

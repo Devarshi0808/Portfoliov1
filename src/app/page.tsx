@@ -12,10 +12,22 @@ import {
   Layers,
   PartyPopper,
   UserRoundSearch,
+  Loader2,
+  X,
 } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the chat component
+const ChatComponent = dynamic(() => import('@/components/chat/chat'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-96">
+      <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+    </div>
+  ),
+});
 
 /* ---------- titles array ---------- */
 const TITLES = [
@@ -44,12 +56,17 @@ const questionConfig = [
 /* ---------- component ---------- */
 export default function Home() {
   const [input, setInput] = useState('');
-  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
-  const router = useRouter();
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [initialQuery, setInitialQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [currentTitle, setCurrentTitle] = useState(0);
+  const titleTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const goToChat = (query: string) =>
-    router.push(`/chat?query=${encodeURIComponent(query)}`);
+  const openChat = async (query: string) => {
+    setInitialQuery(query);
+    setIsChatOpen(true);
+  };
 
   /* hero animations (unchanged) */
   const topElementVariants = {
@@ -69,14 +86,31 @@ export default function Home() {
     },
   };
 
+  // Page transition variants
+  const pageTransitionVariants = {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 1.05 },
+    transition: { duration: 0.3, ease: 'easeInOut' }
+  };
+
   useEffect(() => {
-    // Précharger les assets du chat en arrière-plan
+    titleTimeout.current = setTimeout(() => {
+      setCurrentTitle((prev) => (prev + 1) % TITLES.length);
+    }, 2000);
+    return () => {
+      if (titleTimeout.current) clearTimeout(titleTimeout.current);
+    };
+  }, [currentTitle]);
+
+  useEffect(() => {
+    // Preload chat assets in background
     const img = new window.Image();
     img.src = '/landing-memojis.png';
 
-    // Précharger les vidéos aussi
+    // Preload videos
     const linkWebm = document.createElement('link');
-    linkWebm.rel = 'preload'; // Note: prefetch au lieu de preload
+    linkWebm.rel = 'preload';
     linkWebm.as = 'video';
     linkWebm.href = '/final_memojis.webm';
     document.head.appendChild(linkWebm);
@@ -88,16 +122,14 @@ export default function Home() {
     document.head.appendChild(linkMp4);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTitleIndex((prev) => (prev + 1) % TITLES.length);
-    }, 3000); // Change title every 3 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 md:pb-20">
+    <motion.div
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 md:pb-20"
+      variants={pageTransitionVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       {/* big blurred footer word */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center overflow-hidden">
         <div
@@ -134,7 +166,7 @@ export default function Home() {
 
       <div className="absolute top-6 left-6 z-20">
         <button
-          onClick={() => goToChat('Are you looking for an internship?')}
+          onClick={() => openChat('Are you looking for an internship?')}
           className="relative flex cursor-pointer items-center gap-2 rounded-full border bg-white/30 px-4 py-1.5 text-sm font-medium text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:border-white dark:text-white dark:hover:bg-neutral-800"
         >
           {/* Green pulse dot */}
@@ -148,7 +180,7 @@ export default function Home() {
 
       {/* header */}
       <motion.div
-        className="z-1 mt-24 mb-8 flex flex-col items-center text-center md:mt-4 md:mb-12"
+        className="z-1 mt-24 mb-4 flex flex-col items-center text-center md:mt-4 md:mb-8"
         variants={topElementVariants}
         initial="hidden"
         animate="visible"
@@ -160,33 +192,37 @@ export default function Home() {
         <h2 className="text-secondary-foreground mt-1 text-xl font-semibold md:text-2xl">
           Hey, I'm Devarshi 👋
         </h2>
-        <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+        <div style={{ minHeight: 60 }}>
           <AnimatePresence mode="wait">
-            <motion.span
-              key={currentTitleIndex}
+            <motion.h1
+              key={TITLES[currentTitle]}
+              className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="inline-block"
+              transition={{ duration: 0.5 }}
             >
-              {TITLES[currentTitleIndex]}
-            </motion.span>
+              {TITLES[currentTitle]}
+            </motion.h1>
           </AnimatePresence>
-        </h1>
+        </div>
       </motion.div>
 
       {/* centre memoji */}
-      <div className="relative z-10 h-52 w-48 overflow-hidden sm:h-72 sm:w-72">
+      <motion.div 
+        className="relative z-10 mb-8 flex justify-center"
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.2 }}
+      >
         <Image
           src="/landing-memojis.png"
           alt="Hero memoji"
-          width={2000}
-          height={2000}
+          width={300}
+          height={300}
           priority
-          className="translate-y-14 scale-[2] object-cover"
+          className="h-48 w-48 object-contain sm:h-64 sm:w-64"
         />
-      </div>
+      </motion.div>
 
       {/* input + quick buttons */}
       <motion.div
@@ -197,9 +233,11 @@ export default function Home() {
       >
         {/* free-form question */}
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            if (input.trim()) goToChat(input.trim());
+            if (input.trim()) {
+              await openChat(input.trim());
+            }
           }}
           className="relative w-full max-w-lg"
         >
@@ -218,7 +256,7 @@ export default function Home() {
               aria-label="Submit question"
               className="flex items-center justify-center rounded-full bg-[#0171E3] p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-70 dark:bg-blue-600 dark:hover:bg-blue-700"
             >
-              <ArrowRight  className="h-5 w-5" />
+              <ArrowRight className="h-5 w-5" />
             </button>
           </div>
         </form>
@@ -226,25 +264,55 @@ export default function Home() {
         {/* quick-question grid */}
         <div className="mt-4 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3 md:grid-cols-5">
           {questionConfig.map(({ key, color, icon: Icon }) => (
-            <Button
+            <motion.div
               key={key}
-              onClick={() => goToChat(questions[key])}
-              variant="outline"
-              className="border-border hover:bg-border/30 aspect-square w-full cursor-pointer rounded-2xl border py-10 shadow-none backdrop-blur-lg active:scale-95 md:p-12"
-              style={{
-                backgroundColor: `${color}20`, // 20% opacity
-                borderColor: `${color}40`, // 40% opacity for border
-              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.1 }}
             >
-              <div className="flex h-full flex-col items-center justify-center gap-1 text-gray-700">
-                <Icon size={40} strokeWidth={2} color={color} />
-                <span className="text-sm font-bold sm:text-base font-bold">{key}</span>
-              </div>
-            </Button>
+              <Button
+                onClick={() => openChat(questions[key])}
+                variant="outline"
+                className="border-border hover:bg-border/30 aspect-square w-full cursor-pointer rounded-2xl border py-10 shadow-none backdrop-blur-lg active:scale-95 md:p-12"
+                style={{
+                  backgroundColor: `${color}20`, // 20% opacity
+                  borderColor: `${color}40`, // 40% opacity for border
+                }}
+              >
+                <div className="flex h-full flex-col items-center justify-center gap-1 text-gray-700">
+                  <Icon size={40} strokeWidth={2} color={color} />
+                  <span className="text-sm font-bold sm:text-base font-bold">{key}</span>
+                </div>
+              </Button>
+            </motion.div>
           ))}
         </div>
       </motion.div>
-              <FluidCursor />
-    </div>
+
+      {/* Chat Overlay */}
+      <AnimatePresence mode="wait">
+        {isChatOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: '100%', scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: '100%', scale: 0.95 }}
+            transition={{ 
+              type: 'spring', 
+              damping: 30, 
+              stiffness: 300,
+              duration: 0.6
+            }}
+            className="fixed inset-0 z-50 bg-background"
+          >
+            <div className="relative h-full w-full">
+              {/* Chat component */}
+              <ChatComponent initialQuery={initialQuery} onClose={() => setIsChatOpen(false)} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <FluidCursor />
+    </motion.div>
   );
 }
