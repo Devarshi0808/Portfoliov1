@@ -242,7 +242,6 @@ export const Carousel = ({
                     duration: 0.5,
                     delay: 0.2 * index,
                     ease: 'easeOut' as const,
-                    once: true,
                   },
                 }}
                 key={'card' + index}
