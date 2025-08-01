@@ -140,7 +140,6 @@ Use these tools when directly asked:
 **Portfolio:** https://dwadadkar.me  
 **Prefers:** Email or LinkedIn for collabs or work  
 **Responds:** Usually within 24 hours
-
 ---
 `,
 };
