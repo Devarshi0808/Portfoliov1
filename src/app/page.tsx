@@ -75,7 +75,7 @@ const topElementVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8 },
+    transition: { duration: 0.8, ease: 'easeOut' as const },
   },
 };
 const bottomElementVariants = {
@@ -83,7 +83,7 @@ const bottomElementVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, delay: 0.2 },
+    transition: { duration: 0.8, delay: 0.2, ease: 'easeOut' as const },
   },
 };
 
@@ -92,7 +92,7 @@ const bottomElementVariants = {
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1 },
     exit: { opacity: 0, scale: 1.05 },
-    transition: { duration: 0.3, ease: 'easeInOut' }
+    transition: { duration: 0.3, ease: 'easeInOut' as const }
   };
 
   useEffect(() => {
