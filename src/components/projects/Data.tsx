@@ -100,7 +100,7 @@ const PROJECT_CONTENT = [
     links: [
       {
         name: 'github',
-        url: 'https://github.com/Devarshi0808/BriefPT',
+        url: 'https://github.com/Devarshi0808/BriefPT-Bilingual-Text-Summarizer',
       },
     ],
     images: [

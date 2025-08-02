@@ -17,6 +17,9 @@ export default function AllProjects() {
       <p className="max-w-7xl mx-auto mt-2 text-sm text-neutral-600 dark:text-neutral-400 font-sans">
         🎯 Click on any project tile to dive deeper and discover the magic behind each one! ✨
       </p>
+      <p className="max-w-7xl mx-auto mt-1 text-xs text-blue-600 dark:text-blue-400 font-medium font-sans">
+        💫 Swipe left to see more projects
+      </p>
       <Carousel items={cards} />
     </div>
   );

@@ -61,11 +61,11 @@ const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
     >
       {/* Welcome message */}
       <motion.div className="mb-8 text-center" variants={itemVariants}>
-        <h2 className="mb-3 text-2xl font-semibold">
-            I'm Raphael's digital twin
+        <h2 className="mb-3 text-2xl font-semibold text-neutral-800 dark:text-neutral-100">
+            I'm Devarshi's digital twin
         </h2>
-        <p className="text-muted-foreground mx-auto max-w-md">
-          The first portfolio that fit YOU needs.
+        <p className="text-muted-foreground mx-auto max-w-md dark:text-neutral-400">
+          Ask me anything about my work, projects, and experience!
         </p>
       </motion.div>
 
@@ -77,7 +77,7 @@ const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
         {suggestedQuestions.map((question, index) => (
           <motion.button
             key={index}
-            className="bg-accent hover:bg-accent/80 flex w-full items-center rounded-lg px-4 py-3 transition-colors"
+            className="bg-white/30 hover:bg-white/60 dark:bg-neutral-800/30 dark:hover:bg-neutral-800/60 flex w-full items-center rounded-lg px-4 py-3 transition-colors border border-white/20 dark:border-neutral-700"
             onClick={() => submitQuery(question.text)}
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}

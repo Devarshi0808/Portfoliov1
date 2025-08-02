@@ -80,7 +80,7 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased transition-colors duration-300",
           inter.variable,
         )}
         suppressHydrationWarning
@@ -88,7 +88,7 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem={false}
+          enableSystem={true}
         >
           <main className="flex min-h-screen flex-col">
             {children}

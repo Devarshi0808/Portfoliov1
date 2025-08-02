@@ -192,7 +192,7 @@ export default function HelperBoost({
           >
             <button
               onClick={toggleVisibility}
-              className="flex items-center gap-1 px-3 py-1 text-xs text-gray-500 transition-colors hover:text-gray-700"
+              className="flex items-center gap-1 px-3 py-1 text-xs text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             >
               {isVisible ? (
                 <>
@@ -220,9 +220,9 @@ export default function HelperBoost({
                     key={key}
                     onClick={() => handleQuestionClick(key)}
                     variant="outline"
-                    className="border-border hover:bg-border/30 h-auto min-w-[100px] flex-shrink-0 cursor-pointer rounded-xl border bg-white/80 px-4 py-3 shadow-none backdrop-blur-sm transition-none active:scale-95"
+                    className="border-border hover:bg-border/30 h-auto min-w-[100px] flex-shrink-0 cursor-pointer rounded-xl border bg-white/80 px-4 py-3 shadow-none backdrop-blur-sm transition-none active:scale-95 dark:bg-neutral-800/80 dark:border-neutral-700"
                   >
-                    <div className="flex items-center gap-3 text-gray-700">
+                    <div className="flex items-center gap-3 text-gray-700 dark:text-gray-200">
                       <Icon size={18} strokeWidth={2} color={color} />
                       <span className="text-sm font-medium">{key}</span>
                     </div>
@@ -263,8 +263,8 @@ export default function HelperBoost({
         {/* Drawer Content */}
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 z-100 bg-black/60 backdrop-blur-xs" />
-          <Drawer.Content className="fixed right-0 bottom-0 left-0 z-100 mt-24 flex h-[80%] flex-col rounded-t-[10px] bg-gray-100 outline-none lg:h-[60%]">
-            <div className="flex-1 overflow-y-auto rounded-t-[10px] bg-white p-4">
+          <Drawer.Content className="fixed right-0 bottom-0 left-0 z-100 mt-24 flex h-[80%] flex-col rounded-t-[10px] bg-gray-100 dark:bg-neutral-900 outline-none lg:h-[60%]">
+            <div className="flex-1 overflow-y-auto rounded-t-[10px] bg-white dark:bg-neutral-900 p-4">
               <div className="mx-auto max-w-md space-y-4">
                 <div
                   aria-hidden

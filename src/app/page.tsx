@@ -2,7 +2,8 @@
 
 import FluidCursor from '@/components/FluidCursor';
 import { Button } from '@/components/ui/button';
-
+import { ThemeToggle } from '@/components/theme-toggle';
+import TalentContactModal from '@/components/TalentContactModal';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -31,9 +32,9 @@ const ChatComponent = dynamic(() => import('@/components/chat/chat'), {
 
 /* ---------- titles array ---------- */
 const TITLES = [
-  'GenAI Developer',
-  'Data Scientist',
   'Machine Learning Engineer',
+  'Data Scientist',
+  'GenAI Developer',
 ];
 
 /* ---------- quick-question data ---------- */
@@ -57,6 +58,7 @@ const questionConfig = [
 export default function Home() {
   const [input, setInput] = useState('');
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isTalentModalOpen, setIsTalentModalOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -66,6 +68,10 @@ export default function Home() {
   const openChat = async (query: string) => {
     setInitialQuery(query);
     setIsChatOpen(true);
+  };
+
+  const openTalentModal = () => {
+    setIsTalentModalOpen(true);
   };
 
   /* hero animations (unchanged) */
@@ -107,7 +113,7 @@ const bottomElementVariants = {
   useEffect(() => {
     // Preload chat assets in background
     const img = new window.Image();
-    img.src = '/landing-memojis.png';
+    img.src = '/new-character.png';
 
     // Preload videos
     const linkWebm = document.createElement('link');
@@ -145,8 +151,8 @@ const bottomElementVariants = {
 
       <div className="absolute top-6 left-6 z-20">
         <button
-          onClick={() => openChat('Are you looking for an internship?')}
-          className="relative flex cursor-pointer items-center gap-2 rounded-full border bg-white/30 px-4 py-1.5 text-sm font-medium text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:border-white dark:text-white dark:hover:bg-neutral-800"
+          onClick={openTalentModal}
+          className="relative flex cursor-pointer items-center gap-2 rounded-full border bg-white/30 px-4 py-1.5 text-sm font-medium text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:bg-neutral-800/30 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800/60"
         >
           {/* Green pulse dot */}
           <span className="relative flex h-2 w-2">
@@ -157,16 +163,36 @@ const bottomElementVariants = {
         </button>
       </div>
 
+      {/* LinkedIn Logo - Top Right */}
+      <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+        <ThemeToggle />
+        <a
+          href="https://www.linkedin.com/in/devarshi8/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white/30 border border-white/20 shadow-md backdrop-blur-lg transition-all duration-300 hover:bg-white/60 hover:scale-110 dark:bg-neutral-800/30 dark:border-neutral-700 dark:hover:bg-neutral-800/60"
+        >
+          <svg
+            className="w-5 h-5 text-blue-600 dark:text-blue-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
+      </div>
+
       {/* header */}
       <motion.div
-        className="z-1 mt-24 mb-4 flex flex-col items-center text-center md:mt-4 md:mb-8"
+        className="z-1 mt-24 mb-0 flex flex-col items-center text-center md:mt-4 md:mb-0"
         variants={topElementVariants}
         initial="hidden"
         animate="visible"
       >
 
 
-        <h2 className="text-secondary-foreground mt-1 text-xl font-semibold md:text-2xl">
+        <h2 className="text-secondary-foreground mt-1 text-xl font-semibold md:text-2xl mb-4">
           Hey, I'm Devarshi 👋
         </h2>
         <div style={{ minHeight: 60 }}>
@@ -187,13 +213,13 @@ const bottomElementVariants = {
 
       {/* centre memoji */}
       <motion.div 
-        className="relative z-10 mb-8 flex justify-center"
+        className="relative z-10 mb-4 flex justify-center -mt-4"
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.2 }}
       >
         <Image
-          src="/landing-memojis.png"
-          alt="Hero memoji"
+          src="/new-character.png"
+          alt="Hero character"
           width={300}
           height={300}
           priority
@@ -206,7 +232,7 @@ const bottomElementVariants = {
         variants={bottomElementVariants}
         initial="hidden"
         animate="visible"
-        className="z-10 mt-4 flex w-full flex-col items-center justify-center md:px-0"
+        className="z-10 mt-2 flex w-full flex-col items-center justify-center md:px-0"
       >
         {/* free-form question */}
         <form
@@ -218,14 +244,14 @@ const bottomElementVariants = {
           }}
           className="relative w-full max-w-lg"
         >
-          <div className="mx-auto flex items-center rounded-full border border-neutral-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-600">
+          <div className="mx-auto flex items-center rounded-full border border-neutral-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800/30 dark:hover:border-neutral-600">
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything about Devarshi..."
-              className="w-full border-none bg-transparent text-base text-neutral-800 placeholder:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-500"
+              placeholder="Ask me anything..."
+              className="w-full border-none bg-transparent text-base text-neutral-800 placeholder:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-400"
             />
             <button
               type="submit"
@@ -243,22 +269,48 @@ const bottomElementVariants = {
           {questionConfig.map(({ key, color, icon: Icon }) => (
             <motion.div
               key={key}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ 
+                scale: 1.08,
+                y: -4,
+                transition: { 
+                  type: "spring", 
+                  stiffness: 400, 
+                  damping: 10 
+                }
+              }}
               whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.1 }}
+              transition={{ duration: 0.2 }}
+              className="group relative overflow-hidden rounded-2xl"
             >
               <Button
                 onClick={() => openChat(questions[key])}
                 variant="outline"
-                className="border-border hover:bg-border/30 aspect-square w-full cursor-pointer rounded-2xl border py-10 shadow-none backdrop-blur-lg active:scale-95 md:p-12"
+                className="relative aspect-square w-full cursor-pointer rounded-2xl border py-10 shadow-lg backdrop-blur-lg active:scale-95 md:p-12 transition-all duration-300 hover:shadow-xl hover:shadow-black/10 dark:hover:shadow-white/5"
                 style={{
                   backgroundColor: `${color}20`, // 20% opacity
                   borderColor: `${color}40`, // 40% opacity for border
                 }}
               >
-                <div className="flex h-full flex-col items-center justify-center gap-1 text-gray-700">
-                  <Icon size={40} strokeWidth={2} color={color} />
-                  <span className="text-sm font-bold sm:text-base font-bold">{key}</span>
+                {/* Gradient swipe overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-white/10 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1s_ease-in-out] pointer-events-none" />
+                
+                <div className="relative flex h-full flex-col items-center justify-center gap-1 text-gray-700 dark:text-gray-200">
+                  <motion.div
+                    whileHover={{ 
+                      scale: 1.2,
+                      rotate: [0, -10, 10, 0],
+                      transition: { duration: 0.3 }
+                    }}
+                    className="group-hover:animate-bounce"
+                  >
+                    <Icon size={40} strokeWidth={2} color={color} />
+                  </motion.div>
+                  <motion.span 
+                    className="text-sm font-bold sm:text-base font-bold"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    {key}
+                  </motion.span>
                 </div>
               </Button>
             </motion.div>
@@ -291,6 +343,12 @@ const bottomElementVariants = {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Talent Contact Modal */}
+      <TalentContactModal 
+        isOpen={isTalentModalOpen} 
+        onClose={() => setIsTalentModalOpen(false)} 
+      />
 
       <FluidCursor />
     </motion.div>

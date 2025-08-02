@@ -69,7 +69,7 @@ export const Carousel = ({
 
           <div
             className={cn(
-              'flex flex-row justify-start gap-4',
+              'flex flex-row justify-start gap-2',
               'mx-auto max-w-4xl' // container width for 3.5 cards
             )}
           >
