@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     domains: ['images.unsplash.com', 'assets.aceternity.com'],
+    unoptimized: true,
   },
   eslint: {
     // Ne bloque PAS le build en cas d'erreurs eslint

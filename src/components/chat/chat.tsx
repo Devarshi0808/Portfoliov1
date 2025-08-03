@@ -41,51 +41,14 @@ const ClientOnly = ({ children }) => {
 // Define Avatar component props interface
 interface AvatarProps {
   hasActiveTool: boolean;
-  videoRef: React.RefObject<HTMLVideoElement | null>;
   isTalking: boolean;
 }
 
 // Dynamic import of Avatar component
 const Avatar = dynamic<AvatarProps>(
   () =>
-    Promise.resolve(({ hasActiveTool, videoRef, isTalking }: AvatarProps) => {
-      // This function will only execute on the client
-      const isIOS = () => {
-        // Check if we're on the client side
-        if (typeof window === 'undefined') {
-          console.log('Avatar: Server side rendering, returning false for iOS');
-          return false;
-        }
-        
-        // Multiple detection methods
-        const userAgent = window.navigator.userAgent;
-        const platform = window.navigator.platform;
-        const maxTouchPoints = window.navigator.maxTouchPoints || 0;
-
-        // UserAgent-based check
-        const isIOSByUA =
-          //@ts-ignore
-          /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-
-        // Platform-based check
-        const isIOSByPlatform = /iPad|iPhone|iPod/.test(platform);
-
-        // iPad Pro check
-        const isIPadOS =
-          //@ts-ignore
-          platform === 'MacIntel' && maxTouchPoints > 1 && !window.MSStream;
-
-        // Safari check
-        const isSafari = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
-
-        const isIOSDevice = isIOSByUA || isIOSByPlatform || isIPadOS || isSafari;
-        console.log('Avatar: iOS detection result:', isIOSDevice);
-        return isIOSDevice;
-      };
-
-      // Conditional rendering based on detection
-      const isIOSDevice = isIOS();
-      console.log('Avatar: Rendering with iOS device:', isIOSDevice, 'isTalking:', isTalking);
+    Promise.resolve(({ hasActiveTool, isTalking }: AvatarProps) => {
+      console.log('Avatar: Rendering with isTalking:', isTalking);
       
       return (
         <div
@@ -95,30 +58,13 @@ const Avatar = dynamic<AvatarProps>(
             className="relative cursor-pointer"
             onClick={() => (window.location.href = '/')}
           >
-            {isIOSDevice ? (
-              <img
-                src="/new-character.png"
-                alt="iOS avatar"
-                className="h-full w-full scale-[1.8] object-contain"
-                onLoad={() => console.log('Avatar: iOS image loaded successfully')}
-                onError={(e) => console.error('Avatar: iOS image failed to load:', e)}
-              />
-            ) : (
-              <video
-                ref={videoRef}
-                className="h-full w-full scale-[1.8] object-contain"
-                muted
-                playsInline
-                loop
-                autoPlay
-                onLoadStart={() => console.log('Avatar: Video loading started')}
-                onLoadedData={() => console.log('Avatar: Video data loaded successfully')}
-                onError={(e) => console.error('Avatar: Video failed to load:', e)}
-              >
-                <source src="/final_memojis.webm" type="video/webm" />
-                <source src="/final_memojis_ios.mp4" type="video/mp4" />
-              </video>
-            )}
+            <img
+              src="/new-character.png"
+              alt="Avatar"
+              className="h-full w-full scale-[1.2] sm:scale-[1.5] object-contain"
+              onLoad={() => console.log('Avatar: Image loaded successfully')}
+              onError={(e) => console.error('Avatar: Image failed to load:', e)}
+            />
           </div>
         </div>
       );
@@ -137,61 +83,12 @@ const MOTION_CONFIG = {
 };
 
 const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: string; onClose?: () => void }) => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const searchParams = useSearchParams();
   const urlInitialQuery = searchParams.get('query');
   const initialQuery = propInitialQuery || urlInitialQuery;
   const [autoSubmitted, setAutoSubmitted] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [isTalking, setIsTalking] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const playPromiseRef = useRef<Promise<void> | null>(null);
-
-  // Safe video play function with proper error handling
-  const safePlayVideo = async () => {
-    if (!videoRef.current || isVideoPlaying) {
-      console.log('safePlayVideo: Skipping play - no video ref or already playing');
-      return;
-    }
-    
-    try {
-      console.log('safePlayVideo: Starting video play');
-      setIsVideoPlaying(true);
-      playPromiseRef.current = videoRef.current.play();
-      await playPromiseRef.current;
-      console.log('safePlayVideo: Video play successful');
-    } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        // Play was interrupted by pause - this is expected behavior
-        console.log('safePlayVideo: Video play was interrupted by pause');
-      } else {
-        console.error('safePlayVideo: Failed to play video:', error);
-      }
-    } finally {
-      setIsVideoPlaying(false);
-      playPromiseRef.current = null;
-    }
-  };
-
-  // Safe video pause function
-  const safePauseVideo = () => {
-    if (!videoRef.current) {
-      console.log('safePauseVideo: No video ref available');
-      return;
-    }
-    
-    console.log('safePauseVideo: Pausing video');
-    // If there's a pending play promise, we need to handle the interruption
-    if (playPromiseRef.current) {
-      // The pause will automatically reject the play promise
-      // We don't need to do anything special here
-      console.log('safePauseVideo: Interrupting pending play promise');
-    }
-    
-    videoRef.current.pause();
-    setIsVideoPlaying(false);
-    playPromiseRef.current = null;
-  };
 
   const {
     messages,
@@ -210,18 +107,15 @@ const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: stri
       if (response) {
         setLoadingSubmit(false);
         setIsTalking(true);
-        safePlayVideo();
       }
     },
     onFinish: () => {
       setLoadingSubmit(false);
       setIsTalking(false);
-      safePauseVideo();
     },
     onError: (error) => {
       setLoadingSubmit(false);
       setIsTalking(false);
-      safePauseVideo();
       console.error('Chat error:', error.message, error.cause);
       toast.error(`Error: ${error.message}`);
     },
@@ -298,30 +192,7 @@ const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: stri
     }
   }, [initialQuery, autoSubmitted]);
 
-  useEffect(() => {
-    console.log('useEffect isTalking: isTalking =', isTalking, 'videoRef.current =', !!videoRef.current);
-    if (videoRef.current) {
-      if (isTalking) {
-        console.log('useEffect isTalking: Calling safePlayVideo');
-        safePlayVideo();
-      } else {
-        console.log('useEffect isTalking: Calling safePauseVideo');
-        safePauseVideo();
-      }
-    } else {
-      console.log('useEffect isTalking: No video ref available');
-    }
-  }, [isTalking]);
 
-  // Cleanup effect to handle component unmounting
-  useEffect(() => {
-    return () => {
-      // Cleanup video state when component unmounts
-      if (videoRef.current) {
-        safePauseVideo();
-      }
-    };
-  }, []);
 
   //@ts-ignore
   const onSubmit = (e) => {
@@ -335,7 +206,6 @@ const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: stri
     stop();
     setLoadingSubmit(false);
     setIsTalking(false);
-    safePauseVideo();
   };
 
   // Check if this is the initial empty state (no messages)
@@ -393,7 +263,6 @@ const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: stri
             <ClientOnly>
               <Avatar
                 hasActiveTool={hasActiveTool}
-                videoRef={videoRef}
                 isTalking={isTalking}
               />
             </ClientOnly>
