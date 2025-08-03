@@ -7,7 +7,7 @@ import { ChevronRight, Mail, Linkedin, Github, Globe, Phone } from 'lucide-react
 export function Contact() {
   // Contact information
   const contactInfo = {
-    name: 'Devarshi Wadadkar',
+    name: 'Devarshi Portfolio',
     email: 'devarshiw8@gmail.com',
     phone: '+1(608)217-8581',
     socials: [

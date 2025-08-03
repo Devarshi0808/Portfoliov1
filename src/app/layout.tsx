@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Devarshi Wadadkar Portfolio",
+  title: "Devarshi Portfolio",
   description: "AI-powered portfolio with a chatbot that talks all about me — skills, experience, and more!",
   keywords: [
     "Devarshi", 
@@ -43,17 +43,17 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Devarshi Wadadkar",
-      url: "http://localhost:3000",
+      url: "https://www.dwadadkar.me",
     },
   ],
   creator: "Devarshi Wadadkar",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "http://localhost:3000",
-    title: "Devarshi Wadadkar Portfolio",
+    url: "https://www.dwadadkar.me",
+    title: "Devarshi Portfolio",
     description: "AI-powered portfolio with a chatbot that talks all about me — skills, experience, and more!",
-    siteName: "Devarshi Wadadkar Portfolio",
+    siteName: "Devarshi Portfolio",
   },
   icons: {
     icon: [

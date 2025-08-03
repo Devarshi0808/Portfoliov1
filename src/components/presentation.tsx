@@ -10,7 +10,7 @@ export function Presentation() {
 
   // Personal information
   const profile = {
-    name: 'Devarshi Wadadkar',
+    name: 'Devarshi Portfolio',
     age: '24 years old',
     location: 'Bay Area, CA',
     src: '/devarshi-profile.png',
