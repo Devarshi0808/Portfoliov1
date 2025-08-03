@@ -14,6 +14,12 @@ const nextConfig = {
   },
   // Force static asset optimization
   staticPageGenerationTimeout: 120,
+  // Ensure public directory is properly handled
+  trailingSlash: false,
+  // Optimize for production builds
+  swcMinify: true,
+  // Ensure proper asset handling
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
 };
 
 module.exports = nextConfig;
