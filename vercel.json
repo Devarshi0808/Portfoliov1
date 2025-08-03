@@ -44,8 +44,7 @@
           "value": "Content-Type, Authorization"
         }
       ]
-    },
-
+    }
   ],
   "rewrites": [
     {
