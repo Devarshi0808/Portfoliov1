@@ -15,7 +15,7 @@ import {
   ChatBubble,
   ChatBubbleMessage,
 } from '@/components/ui/chat/chat-bubble';
-import WelcomeModal from '@/components/welcome-modal';
+
 import { X } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 
@@ -178,13 +178,6 @@ const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: stri
   };
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.loop = true;
-      videoRef.current.muted = true;
-      videoRef.current.playsInline = true;
-      videoRef.current.pause();
-    }
-
     if (initialQuery && !autoSubmitted) {
       setAutoSubmitted(true);
       setInput('');
@@ -259,14 +252,17 @@ const Chat = ({ initialQuery: propInitialQuery, onClose }: { initialQuery?: stri
             )}
           </div>
           
-          <div className="flex justify-center">
-            <ClientOnly>
-              <Avatar
-                hasActiveTool={hasActiveTool}
-                isTalking={isTalking}
-              />
-            </ClientOnly>
-          </div>
+          {/* Only show avatar when chat is empty */}
+          {isEmptyState && (
+            <div className="flex justify-center">
+              <ClientOnly>
+                <Avatar
+                  hasActiveTool={hasActiveTool}
+                  isTalking={isTalking}
+                />
+              </ClientOnly>
+            </div>
+          )}
 
           <AnimatePresence>
             {latestUserMessage && !currentAIMessage && (

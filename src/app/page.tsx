@@ -11,10 +11,8 @@ import {
   BriefcaseBusiness,
   Laugh,
   Layers,
-  PartyPopper,
   UserRoundSearch,
   Loader2,
-  X,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -60,7 +58,7 @@ export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isTalentModalOpen, setIsTalentModalOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentTitle, setCurrentTitle] = useState(0);
   const titleTimeout = useRef<NodeJS.Timeout | null>(null);

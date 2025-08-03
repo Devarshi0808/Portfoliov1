@@ -1,109 +1,105 @@
-# Devarshi Wadadkar - AI-Powered Portfolio
+# Devarshi Wadadkar - AI/ML Portfolio
 
-An interactive, AI-powered portfolio showcasing Devarshi's skills, experience, and projects with an animated avatar and intelligent chatbot.
+A modern, interactive portfolio website showcasing Devarshi's expertise in Data Science, Machine Learning, and GenAI development. Built with Next.js 15, TypeScript, and AI-powered chat functionality.
 
-## 🚀 Features
+## 🌟 Live Demo
 
-### ✨ Interactive AI Chatbot
-- **Animated Avatar**: Custom genmoji that responds to conversations
-- **Intelligent Responses**: Powered by AI to answer questions about skills, experience, and projects
-- **Voice-like Experience**: Avatar animates when speaking
-- **Multi-platform Support**: Video animation for desktop, static image for iOS
+**🌐 Website**: [dwadadkar.me](https://dwadadkar.me)
 
-### 🎨 Modern UI/UX
-- **Fluid Animations**: Smooth cursor effects and page transitions
-- **Responsive Design**: Optimized for all devices and screen sizes
-- **Dark/Light Theme**: Automatic theme switching
-- **Interactive Elements**: Hover effects, animations, and micro-interactions
+## ✨ Features
 
-### 📱 Portfolio Sections
-- **Work Experience**: Interactive cards with company logos and achievements
-- **Projects Showcase**: Carousel of projects with detailed descriptions
-- **Skills Display**: Visual representation of technical and soft skills
-- **Contact Information**: Easy access to social profiles and contact details
+### 🎨 **Modern Design & UX**
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Dark/Light Mode**: Seamless theme switching with persistent preferences
+- **Smooth Animations**: Framer Motion-powered transitions and micro-interactions
+- **Interactive Elements**: Hover effects, loading states, and fluid cursors
 
-### 🤖 AI Integration
-- **Smart Q&A**: Ask questions about experience, skills, or projects
-- **Contextual Responses**: AI understands portfolio-specific queries
-- **Real-time Interaction**: Instant responses with animated avatar
-- **Tool Integration**: Can fetch real-time data and perform actions
+### 🤖 **AI-Powered Chat Interface**
+- **Intelligent Conversations**: OpenAI-powered chat with context awareness
+- **Tool Integration**: Dynamic tool calls for skills, experience, and project information
+- **Real-time Responses**: Streaming chat responses with typing indicators
+- **Smart Suggestions**: Quick question buttons for common inquiries
+
+### 📱 **Interactive Components**
+- **Dynamic Avatar**: Responsive character image that adapts to chat state
+- **Project Carousel**: Swipeable project showcase with detailed descriptions
+- **Experience Cards**: Animated cards with company logos and role details
+- **Skills Display**: Categorized skills with color-coded badges
+- **Contact Modal**: Professional contact form with multiple contact options
+
+### 🎯 **Key Sections**
+- **Hero Section**: Animated titles and character introduction
+- **Projects Showcase**: Interactive project cards with previews
+- **Experience Timeline**: Professional journey with company details
+- **Skills Overview**: Technical and soft skills with visual indicators
+- **Contact Integration**: Direct contact options and calendar booking
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **Next.js 15** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **Framer Motion** - Smooth animations and transitions
-- **Radix UI** - Accessible component primitives
+### **Frontend Framework**
+- **Next.js 15**: App Router with server-side rendering
+- **React 19**: Latest React features and hooks
+- **TypeScript**: Type-safe development
 
-### AI & Backend
-- **AI SDK** - OpenAI integration
-- **Vercel AI** - Streaming responses
-- **React Markdown** - Rich text rendering
-- **Zod** - Schema validation
+### **Styling & UI**
+- **Tailwind CSS 4**: Utility-first CSS framework
+- **Radix UI**: Accessible component primitives
+- **Framer Motion**: Smooth animations and transitions
+- **Lucide React**: Beautiful icon library
 
-### Development Tools
-- **ESLint** - Code linting and formatting
-- **Prettier** - Code formatting
-- **TypeScript** - Static type checking
-- **Tailwind CSS** - PostCSS processing
+### **AI & Chat**
+- **OpenAI SDK**: AI-powered chat functionality
+- **Vercel AI SDK**: Streaming responses and tool calls
+- **React Markdown**: Rich text rendering
 
-## 📦 Installation
+### **Deployment & Analytics**
+- **Vercel**: Production deployment and hosting
+- **Vercel Analytics**: Performance monitoring
+- **Custom Domain**: dwadadkar.me
 
-### Prerequisites
+## 🚀 Getting Started
+
+### **Prerequisites**
 - Node.js 18+ 
-- npm or pnpm
-- Git
+- npm or yarn
+- OpenAI API key
 
-### Setup Instructions
+### **Installation**
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Devarshi0808/portfolio.git
+   git clone <repository-url>
    cd portfolio
    ```
 
 2. **Install dependencies**
    ```bash
-   npm install
-   # or
-   pnpm install
+   npm install --legacy-peer-deps
    ```
 
-3. **Set up environment variables**
+3. **Environment Setup**
    ```bash
-   cp .env.example .env.local
+   cp env.example .env.local
    ```
    
-   Add your API keys to `.env.local`:
+   Add your OpenAI API key:
    ```env
-   OPENAI_API_KEY=your_openai_api_key
+   OPENAI_API_KEY=your_openai_api_key_here
    ```
 
-4. **Run the development server**
+4. **Run development server**
    ```bash
    npm run dev
-   # or
-   pnpm dev
    ```
 
 5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 🎯 Usage
-
-### For Visitors
-1. **Landing Page**: Explore the main portfolio with animated elements
-2. **Chat Interface**: Click "Ask me anything" to interact with the AI avatar
-3. **Quick Questions**: Use the preset buttons for common queries
-4. **Project Exploration**: Click on project tiles for detailed information
-
-### For Developers
-1. **Component Structure**: Modular components in `src/components/`
-2. **AI Integration**: Chat functionality in `src/app/api/chat/`
-3. **Styling**: Tailwind CSS classes with custom animations
-4. **State Management**: React hooks for local state
+### **Build for Production**
+```bash
+npm run build
+npm start
+```
 
 ## 📁 Project Structure
 
@@ -112,90 +108,121 @@ portfolio/
 ├── src/
 │   ├── app/                    # Next.js App Router
 │   │   ├── api/               # API routes
-│   │   ├── chat/              # Chat page
-│   │   └── globals.css        # Global styles
-│   ├── components/             # React components
-│   │   ├── chat/              # Chat-related components
-│   │   ├── ui/                # Reusable UI components
-│   │   └── projects/          # Project showcase components
-│   ├── hooks/                 # Custom React hooks
-│   └── lib/                   # Utility functions
-├── public/                    # Static assets
-│   ├── final_memojis.webm     # Animated avatar (WebM)
-│   ├── final_memojis_ios.mp4  # Animated avatar (MP4)
-│   └── landing-memojis.png    # Static avatar for iOS
-└── package.json               # Dependencies and scripts
+│   │   │   ├── chat/         # AI chat endpoints
+│   │   │   └── github-stars/ # GitHub integration
+│   │   ├── chat/             # Chat page
+│   │   ├── globals.css       # Global styles
+│   │   ├── layout.tsx        # Root layout
+│   │   └── page.tsx          # Home page
+│   ├── components/            # React components
+│   │   ├── chat/             # Chat interface
+│   │   ├── projects/         # Project showcase
+│   │   ├── ui/               # UI components
+│   │   └── magicui/          # Special UI effects
+│   ├── hooks/                # Custom React hooks
+│   └── lib/                  # Utility functions
+├── public/                   # Static assets
+│   ├── images/              # Project images
+│   └── Devarshi.pdf         # Resume
+├── next.config.ts           # Next.js configuration
+├── tailwind.config.js       # Tailwind CSS config
+└── vercel.json             # Vercel deployment config
 ```
 
-## 🚀 Deployment
+## 🎨 Key Components
 
-### Vercel (Recommended)
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+### **Chat Interface** (`src/components/chat/`)
+- **Dynamic Avatar**: Responsive character that hides during conversations
+- **Tool Integration**: Skills, experience, and project information tools
+- **Streaming Responses**: Real-time AI responses with typing indicators
+- **Theme Integration**: Persistent theme toggle in chat header
 
-### Manual Deployment
-```bash
-npm run build
-npm start
-```
+### **Project Showcase** (`src/components/projects/`)
+- **Carousel Navigation**: Swipeable project cards
+- **Interactive Previews**: Hover effects and detailed descriptions
+- **Responsive Grid**: Adaptive layout for different screen sizes
+
+### **Contact Modal** (`src/components/TalentContactModal.tsx`)
+- **Professional Contact**: Multiple contact methods (email, LinkedIn, calendar)
+- **Resume Download**: Direct PDF download link
+- **Skills Overview**: Quick skills and experience summary
+- **Responsive Design**: Mobile-optimized layout
 
 ## 🔧 Configuration
 
-### Environment Variables
-- `OPENAI_API_KEY`: OpenAI API key for chat functionality
-- `NEXT_PUBLIC_ANALYTICS_ID`: Google Analytics ID (optional)
+### **Environment Variables**
+```env
+OPENAI_API_KEY=your_openai_api_key
+```
 
-### Customization
-- **Avatar**: Replace video files in `public/` directory
-- **Content**: Update data in component files
-- **Styling**: Modify Tailwind classes in components
-- **AI Responses**: Customize prompts in `src/app/api/chat/`
+### **Vercel Configuration**
+- **Framework**: Next.js
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Install Command**: `npm install --legacy-peer-deps`
 
-## 🐛 Troubleshooting
+### **Custom Domain**
+- **Primary**: dwadadkar.me
+- **WWW**: www.dwadadkar.me
+- **SSL**: Automatic HTTPS via Vercel
 
-### Common Issues
+## 🚀 Deployment
 
-**Video not playing:**
-- Check if video files exist in `public/` directory
-- Ensure browser supports WebM/MP4 formats
-- Check console for loading errors
+### **Vercel Deployment**
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables
+3. Deploy automatically on push to main branch
 
-**AI not responding:**
-- Verify API keys are set correctly
-- Check network connectivity
-- Review API rate limits
+### **Manual Deployment**
+```bash
+vercel --prod --force
+```
 
-**Build errors:**
-- Clear `.next` directory: `rm -rf .next`
-- Reinstall dependencies: `npm install`
-- Check TypeScript errors: `npm run lint`
+## 🎯 Features in Detail
 
-### Development Tips
-- Use `npm run dev` for development
-- Check browser console for debugging info
-- Use React DevTools for component inspection
-- Monitor network tab for API calls
+### **AI Chat Capabilities**
+- **Context Awareness**: Remembers conversation history
+- **Tool Calls**: Dynamic information retrieval
+- **Streaming**: Real-time response generation
+- **Error Handling**: Graceful error management
+
+### **Responsive Design**
+- **Mobile-First**: Optimized for mobile devices
+- **Tablet Support**: Adaptive layouts for tablets
+- **Desktop Experience**: Enhanced features for larger screens
+
+### **Performance Optimizations**
+- **Image Optimization**: Next.js automatic image optimization
+- **Code Splitting**: Dynamic imports for better loading
+- **Caching**: Vercel edge caching for fast delivery
+- **Analytics**: Performance monitoring with Vercel Analytics
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes
-4. Commit your changes: `git commit -m 'Add feature'`
-5. Push to the branch: `git push origin feature-name`
-6. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👤 About
+## 👨‍💻 Author
 
-**Devarshi Wadadkar** - AI Developer & Data Scientist
-- **GitHub**: [@Devarshi0808](https://github.com/Devarshi0808)
-- **LinkedIn**: [Devarshi Wadadkar](https://www.linkedin.com/in/devarshi8/)
-- **Portfolio**: [Live Demo](https://your-portfolio-url.com)
+**Devarshi Wadadkar**
+- **LinkedIn**: [devarshi8](https://www.linkedin.com/in/devarshi8/)
+- **Portfolio**: [dwadadkar.me](https://dwadadkar.me)
+- **Email**: Available through the contact modal
+
+## 🙏 Acknowledgments
+
+- **Next.js Team**: For the amazing framework
+- **Vercel**: For seamless deployment and hosting
+- **OpenAI**: For AI capabilities
+- **Tailwind CSS**: For the utility-first CSS framework
+- **Framer Motion**: For smooth animations
 
 ---
 
