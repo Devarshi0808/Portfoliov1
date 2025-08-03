@@ -45,19 +45,11 @@
         }
       ]
     },
-    {
-      "source": "/(.*\\.(png|jpg|jpeg|gif|svg|ico|webp|pdf))",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
+
   ],
   "rewrites": [
     {
-      "source": "/((?!api|_next|.*\\..*).*)",
+      "source": "/((?!api|_next).*)",
       "destination": "/"
     }
   ]
