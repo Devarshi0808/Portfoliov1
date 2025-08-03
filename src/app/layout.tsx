@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Devarshi Portfolio",
+  title: "Devarshi Wadadkar Portfolio",
   description: "AI-powered portfolio with a chatbot that talks all about me — skills, experience, and more!",
   keywords: [
     "Devarshi", 
@@ -51,9 +51,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://www.dwadadkar.me",
-    title: "Devarshi Portfolio",
+    title: "Devarshi Wadadkar Portfolio",
     description: "AI-powered portfolio with a chatbot that talks all about me — skills, experience, and more!",
-    siteName: "Devarshi Portfolio",
+    siteName: "Devarshi Wadadkar Portfolio",
   },
   icons: {
     icon: [
